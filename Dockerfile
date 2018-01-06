@@ -4,11 +4,12 @@ LABEL maintainer Knut Ahlers <knut@ahlers.me>
 ENV VERSION=9a8fb5c
 
 RUN set -ex \
- && apk --update add git build-base zlib-dev lzo-dev lua5.1-dev \
+ && apk --no-cache add zlib-dev lzo-dev lua5.1-dev libstdc++ \
+ && apk --no-cache add --virtual build-deps git build-base \
  && git clone https://github.com/carlosefr/kyoto.git /tmp/build \
  && cd /tmp/build && git reset --hard ${VERSION} && make PREFIX=/usr && make install \
  && rm -rf /tmp/kyoto.tgz /tmp/build \
- && apk del git
+ && apk del build-deps
 
 VOLUME /data
 EXPOSE 3000
