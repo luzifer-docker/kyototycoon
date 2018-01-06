@@ -1,8 +1,14 @@
-FROM debian
+FROM alpine
+
+LABEL maintainer Knut Ahlers <knut@ahlers.me>
+ENV VERSION=9a8fb5c
 
 RUN set -ex \
- && apt-get update \
- && apt-get install -y kyototycoon
+ && apk --update add git build-base zlib-dev lzo-dev lua5.1-dev \
+ && git clone https://github.com/carlosefr/kyoto.git /tmp/build \
+ && cd /tmp/build && git reset --hard ${VERSION} && make PREFIX=/usr && make install \
+ && rm -rf /tmp/kyoto.tgz /tmp/build \
+ && apk del git
 
 VOLUME /data
 EXPOSE 3000
