@@ -8,7 +8,7 @@ RUN set -ex \
  && apk --no-cache add --virtual build-deps git build-base \
  && git clone https://github.com/carlosefr/kyoto.git /tmp/build \
  && cd /tmp/build && git reset --hard ${VERSION} && make PREFIX=/usr && make install \
- && rm -rf /tmp/kyoto.tgz /tmp/build \
+ && rm -rf /tmp/build \
  && apk del build-deps
 
 VOLUME /data
